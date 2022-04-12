@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+  <head>
+    <script>
+      function balance_sheet(){
+      let P=Number(document.getElementById("contri").value);
+      let r=Number(document.getElementById("rate").value);;
+      let y=Number(document.getElementById("yr").value);;
+      let A = 0;
+      let yrr=[];
+      let cont=[];
+      let amt=[];
+      // yrr.push(y);
+      // cont.push(P);
+      // amt.push(A);
+      var txt = "<table style=\"width:50%\">  <tr>     <th>Year</th>     <th>Contribution</th>     <th>Interest</th>  <th>Total Amount</th>  </tr>"
+      for(let x=1;x<=y;x++)
+      {
+        yrr.push(x);
+        txt = txt + "<tr>     <td>"
+        txt = txt + x + "</td>"
+        A = A+P;
+        txt = txt + "<td>" + P*x + "</td>"; 
+        cont.push(x*P);
+        txt = txt + "<td>" + A*r/100 + "</td>"; 
+        A= (A + A*r/100) ;
+        amt.push(A);
+        txt = txt + "<td>" + A + "</td>"; 
+        txt = txt +" </tr>"    
+      }
+      txt = txt + "</table>"
+      document.getElementById("demo").innerHTML = txt;
+    
+      
+//       var xValues = yrr; 
+      
+//       // [50,60,70,80,90,100,110,120,130,140,150];
+// var yValues = amt;
+// [7,8,8,9,9,9,10,11,14,14,15];
+
+new Chart("myChart1", {
+  type: "line",
+  data: {
+    labels: yrr,
+    datasets: [{
+      data: amt,
+      borderColor: "red",
+      legendText: "Total Contribution",
+      fill: false
+    },{
+      data: cont,
+      borderColor: "green",
+      legendText: "Total Contribution",
+      fill: true
+    }]
+  },
+  options: {
+    legend: {display: true},
+    scales: {
+      // yAxes: [{ticks: {min: -1, max:16}}],
+    }
+  }
+});
+    
+    }
+
+
+      
+      </script>
+
+  <style>
+    table, th, td {
+      border:1px solid black;
+    }
+    </style>
+  </head>
+    
+<body>
+  <form onclick="balance_sheet(); return false">
+    <label for="fname">Yearly Contribution:</label><br>
+    <input type="text" id="contri" name="fname" value="1000"><br>
+    <label for="lname">Yearly Interest Rate:</label><br>
+    <input type="text" id="rate" name="lname" value="5"><br>
+    <label for="lname">Number of Years:</label><br>
+    <input type="text" id="yr" name="yr" value="5"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+<h2>Balance Sheet</h2>
+
+<canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+<p id="demo"></p>
+
+
+
+
+</body>
+</html>
